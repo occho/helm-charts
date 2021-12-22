@@ -34,6 +34,12 @@ spec:
         - name: schemas-volume
           configMap:
             name: schemas-volume-worker
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - {{ . | quote }}
+        {{- end }}
+      {{- end }}
       {{- if .Values.initContainers.worker }}
       initContainers:
       {{-  tpl (toYaml .Values.initContainers.worker) . | nindent 6 }}

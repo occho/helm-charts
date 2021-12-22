@@ -27,6 +27,12 @@ spec:
         - name: catalog-volume
           secret:
             secretName: presto-connectors
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - {{ . | quote }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
